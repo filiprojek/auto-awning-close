@@ -28,99 +28,96 @@ void setup()
   vw_setup(1000);
 }
 
-const char whichButtonWasPressed()
+/* const char whichButtonWasPressed()
 {
 
   Serial.write("\n\nreturn false\n\n");
   return "";
-}
+} */
 
-void sendMsg(const char inputMsg = "")
+/* void sendMsg(inputMsg)
 {
-  const char input = inputMsg;
+  Serial.write("input");
+  // Serial.write(input)
+  Serial.write("\n odesilani...\n");
 
-  Serial.write("\n odesilani...");
-  // proměnná zprava pro poslání textu
-  const char *zprava = input;
-  // rozsvícení LED diody při odesílání (nepovinné)
-  digitalWrite(led, true);
-  // odeslání textu v proměnné zprava
-  vw_send((uint8_t *)zprava, strlen(zprava));
-  // vyčkání na odeslání celé zprávy
+  switch (inputMsg)
+  {
+    case 'A':
+      vw_send((uint8_t *)"1", strlen("1"));
+    break;
+    case 'B':
+      vw_send((uint8_t *)"2", strlen("2"));
+    break;
+    case 'C':
+      vw_send((uint8_t *)"3", strlen("3"));
+    break;
+    case 'D':
+      vw_send((uint8_t *)"4", strlen("4"));
+    break;
+    default:
+      vw_send((uint8_t *)"0", strlen("0"));
+  }
+
   vw_wait_tx();
-  // zhasnutí LED diody při odeslání (nepovinné)
-  digitalWrite(led, false);
-  // pauza mezi posláním zpráv
-  delay(100);
-}
+  digitalWrite(13, false);
+  delay(900);
+} */
 
 void loop()
 {
-  // put your main code here, to run repeatedly:
-  /*
-const char pressedBtn = whichButtonWasPressed();
-if(pressedBtn != "")
-{
-Serial.write("\n \n ifstatement \n \n");
-sendMsg(pressedBtn);
-}
-*/
-
+  String pressedBtn = "N";
   if (digitalRead(btnA) == HIGH)
   {
     Serial.write("btna");
-    const char pressedBtn = "btnA";
-    sendMsg(pressedBtn);
-  }
-  if (digitalRead(btnB) == HIGH)
-  {
-    Serial.write("btnb");
-    const char pressedBtn = "btnB";
-    sendMsg(pressedBtn);
-  }
-  if (digitalRead(btnC) == HIGH)
-  {
-    Serial.write("btnc");
-    const char pressedBtn = "btnC";
-    sendMsg(pressedBtn);
-/*     // vytvoření proměnných pro různé
-    // druhy zpráv
-    // proměnná zprava pro poslání textu
-    const char *zprava = "Cas od zapnuti: ";
-    // proměnná s načtením počtu sekund od
-    // připojení napájení
-    long cas = millis() / 1000;
-    // pracovní proměnná pro konverzi
-    // čísla na text
-    char znaky[128];
-    // příkazy pro konverzi čísla na text,
-    // čas převedený na text je uložen do
-    // proměnné casZnaky
-    snprintf(znaky, sizeof(znaky), "%ld", cas);
-    char *casZnaky = znaky;
-    // rozsvícení LED diody při odesílání (nepovinné)
-    digitalWrite(13, true);
-    // odeslání textu v proměnné zprava
-    vw_send((uint8_t *)zprava, strlen(zprava));
-    // vyčkání na odeslání celé zprávy
-    vw_wait_tx();
-    // zhasnutí LED diody při odeslání (nepovinné)
-    digitalWrite(13, false);
-    // pauza mezi posláním zpráv
-    delay(100);
-    // obdobný kus kódu, který opět rozsvítí LED
-    // diodu, zašle obsah proměnné casZnaky
-    // a po odeslání LED diodu zhasne
-    digitalWrite(13, true); */
+    pressedBtn = "A";
+
+    Serial.write("\n odesilani...\n");
     vw_send((uint8_t *)"1", strlen("1"));
     vw_wait_tx();
     digitalWrite(13, false);
     delay(900);
   }
+
+  if (digitalRead(btnB) == HIGH)
+  {
+    Serial.write("btnb");
+    pressedBtn = "B";
+
+    Serial.write("\n odesilani...\n");
+    vw_send((uint8_t *)"2", strlen("2"));
+    vw_wait_tx();
+    digitalWrite(13, false);
+    delay(900);
+  }
+
+  if (digitalRead(btnC) == HIGH)
+  {
+    Serial.write("btnc");
+    pressedBtn = "C";
+
+    Serial.write("\n odesilani...\n");
+    vw_send((uint8_t *)"3", strlen("3"));
+    vw_wait_tx();
+    digitalWrite(13, false);
+    delay(900);
+  }
+  
   if (digitalRead(btnD) == HIGH)
   {
     Serial.write("btnd");
-    const char pressedBtn = "btnD";
-    sendMsg(pressedBtn);
+    pressedBtn = "D";
+
+    Serial.write("\n odesilani...\n");
+    vw_send((uint8_t *)"4", strlen("4"));
+    vw_wait_tx();
+    digitalWrite(13, false);
+    delay(900);
   }
 }
+
+
+/*     vw_send((uint8_t *)"1", strlen("1"));
+    vw_wait_tx();
+    digitalWrite(13, false);
+    delay(900); */
