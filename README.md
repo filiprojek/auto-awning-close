@@ -1,2 +1,3 @@
 # auto-awning-close
-- main file is in `main/main.ino`
+
+main file is in `main/main.ino`
