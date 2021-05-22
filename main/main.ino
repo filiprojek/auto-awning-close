@@ -1,88 +1,82 @@
-// připojení knihovny
 #include <RCSwitch.h>
 
 RCSwitch mySwitch = RCSwitch();
-int delayTime = 2000;
 
-int led1 = 4;
-int led2 = 5;
-int led3 = 6;
-int led4 = 7;
+// defining used pins
 
 int wind = 8;
 int receiver = 9;
 
+int relay1 = 7;
+int relay2 = 6;
+int relay3 = 5;
+int relay4 = 4;
+
+// codes from remote controller
+const int recRelay4 = 16736114;
+const int recRelay3 = 16736120;
+const int recRelay2 = 3696136;
+const int recRelay1 = 16736113;
+
+int delayTime = 2000;
+
 void setup()
 {
-  pinMode(led1, OUTPUT);
-  pinMode(led2, OUTPUT);
-  pinMode(led3, OUTPUT);
-  pinMode(led4, OUTPUT);
-
-  pinMode(wind, INPUT);
-
-
-  // inicializace komunikace po sériové lince
   Serial.begin(9600);
 
-  mySwitch.enableReceive(0);  // Receiver on interrupt 0 => that is pin #2
+  pinMode(relay1, OUTPUT);
+  pinMode(relay2, OUTPUT);
+  pinMode(relay3, OUTPUT);
+  pinMode(relay4, OUTPUT);
+  pinMode(wind, INPUT);
+
+  mySwitch.enableReceive(0); // Receiver on interrupt 0 => that is pin #2
 }
 
-void ledTest()
+void relayOn(int pin)
 {
-  for(int i = 4; i < 8; i++)
-  {
-    digitalWrite(i, HIGH);
-    delay(1000);
-    digitalWrite(i, LOW);
-  }
-}
+  Serial.println("realy " + pin);
 
-void ledLight(int pin)
-{
   digitalWrite(pin, HIGH);
   delay(delayTime);
   digitalWrite(pin, LOW);
+  
+  delay(delayTime);
 }
 
 void loop()
 {
-  if(digitalRead(wind) == HIGH)
+  // wind actions
+  if (digitalRead(wind) == HIGH)
   {
-    digitalWrite(led1, HIGH);
+    digitalWrite(relay1, HIGH);
   }
   else
   {
-    digitalWrite(led1, LOW);
+    digitalWrite(relay1, LOW);
   }
 
+  // remote controller actions
   if (mySwitch.available())
   {
-    Serial.print("Received ");
-    Serial.print( mySwitch.getReceivedValue() );
+    int received = mySwitch.getReceivedValue();
+    Serial.println("Received " + received);
 
-    switch(mySwitch.getReceivedValue())
+    if (received == recRelay1)
     {
-      case 16736113:
-        Serial.println("aaaaaaaaaa");
-        ledLight(led1);
-        delay(delayTime);
-      break;
-      case 3696136:
-        Serial.println("bbbbbbbbbb");
-        ledLight(led2);
-        delay(delayTime);
-      break;
-      case 16736120:
-        Serial.println("cccccccccc");
-        ledLight(led3);
-        delay(delayTime);
-      break;
-      case 16736114:
-        Serial.println("dddddddddd");
-        ledLight(led4);
-        delay(delayTime);
-      break;
+      relayOn(relay1);
+    }
+    if (received == recRelay2)
+    {
+      relayOn(relay2);
+    }
+    if (received == recRelay3)
+    {
+      relayOn(relay3);
+    }
+    if (received == recRelay4)
+    {
+      relayOn(relay4);
     }
 
     mySwitch.resetAvailable();
