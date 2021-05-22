@@ -3,7 +3,6 @@
 RCSwitch mySwitch = RCSwitch();
 
 // defining used pins
-
 int wind = 8;
 int receiver = 9;
 
