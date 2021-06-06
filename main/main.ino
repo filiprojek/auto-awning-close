@@ -16,12 +16,12 @@ int relay3 = 5;
 int relay4 = 4;
 
 // codes from remote controller
-const int recRelay4 = 16736114;
-const int recRelay3 = 16736120;
-const int recRelay2 = 3696136;
+const int recRelay4 = 3696136;
+const int recRelay3 = 16736114;
+const int recRelay2 = 16736120;
 const int recRelay1 = 16736113;
 
-int delayTime = 2000;
+int delayTime = 500;
 
 void setup()
 {
@@ -37,12 +37,12 @@ void setup()
   mySwitch.enableReceive(0); // Receiver on interrupt 0 => that is pin #2
 
   //clear out the registers
-  rtc.initClock();
+  ///rtc.initClock();
   //set a time to start with.
   //day, weekday, month, century(1=1900, 0=2000), year(0-99)
-  rtc.setDate(14, 6, 3, 1, 10);
+  ///rtc.setDate(6, 7, 6, 0, 21);
   //hr, min, sec
-  rtc.setTime(1, 15, 0);
+  ///rtc.setTime(14, 16, 0);
 }
 
 void updateRTC()
@@ -89,6 +89,9 @@ void relayOn(int pin)
 
   digitalWrite(pin, HIGH);
   delay(delayTime);
+  if(pin == relay3) {
+  //  delay(1500);
+  }
   digitalWrite(pin, LOW);
   
   delay(delayTime);
@@ -99,11 +102,19 @@ void relayOn(int pin)
 void loop()
 {
     //formatted strings are at the current time/date.
-  Serial.print(rtc.formatTime());
+  //Serial.print(rtc.formatTime());
+  //Serial.print("\r\n");
+  //Serial.print(rtc.formatDate());
+  //Serial.print("\r\n");
+  //delay(1000);
+
+  //char j = rtc.formatTime(RTCC_TIME_HM)[0];
+  //char d = rtc.formatTime(RTCC_TIME_HM)[1];
+  
+  Serial.print();
+  Serial.print();
   Serial.print("\r\n");
-  Serial.print(rtc.formatDate());
-  Serial.print("\r\n");
-  delay(1000);
+  
   
   if (Serial.available())
   {
@@ -115,6 +126,7 @@ void loop()
   {
     Serial.println("cegoslav");
   }
+
   
   // wind actions
   if (digitalRead(wind) == HIGH)
@@ -125,6 +137,7 @@ void loop()
   {
     digitalWrite(relay1, LOW);
   }
+
 
   // remote controller actions
   if (mySwitch.available())
