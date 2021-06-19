@@ -171,13 +171,13 @@ void loop()
   // rain actions
   if(digitalRead(rain) != HIGH)
   {
-    Serial.println("cegoslav");
+    relayOn(relay1, true);
   }
   
   // wind actions
   if (digitalRead(wind) == HIGH)
   {
-    digitalWrite(relay1, HIGH);
+    relayOn(relay1, true);
   }
   else
   {
