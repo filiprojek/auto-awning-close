@@ -22,6 +22,9 @@ const int recRelay2 = 16736120;
 const int recRelay1 = 16736113;
 
 int delayTime = 500;
+// status of roleta
+bool isOpen = false;
+
 
 void setup()
 {
@@ -40,9 +43,9 @@ void setup()
   ///rtc.initClock();
   //set a time to start with.
   //day, weekday, month, century(1=1900, 0=2000), year(0-99)
-  ///rtc.setDate(6, 7, 6, 0, 21);
+  ///rtc.setDate(18, 6, 6, 0, 21);
   //hr, min, sec
-  ///rtc.setTime(14, 16, 0);
+  ///rtc.setTime(18, 44, 0);
 }
 
 void updateRTC()
@@ -83,9 +86,24 @@ void updateRTC()
   Serial.println("RTC Updated!");
 }
 
-void relayOn(int pin)
+void relayOn(int pin, bool controller = false)
 {
-  Serial.println("realy " + pin);
+  Serial.print("realy ");
+  Serial.print(pin);
+  Serial.print("\n");
+
+  if(controller == false)
+  {
+    Serial.println("jsemtu");
+    if(pin == relay4)
+    {
+      isOpen = true;
+    }
+    if(pin == relay1)
+    {
+      isOpen = false;
+    } 
+  }
 
   digitalWrite(pin, HIGH);
   delay(delayTime);
@@ -97,36 +115,64 @@ void relayOn(int pin)
   delay(delayTime);
 }
 
-
-
 void loop()
 {
-    //formatted strings are at the current time/date.
-  //Serial.print(rtc.formatTime());
-  //Serial.print("\r\n");
-  //Serial.print(rtc.formatDate());
-  //Serial.print("\r\n");
-  //delay(1000);
-
-  //char j = rtc.formatTime(RTCC_TIME_HM)[0];
-  //char d = rtc.formatTime(RTCC_TIME_HM)[1];
-  
-  Serial.print();
-  Serial.print();
+  //formatted strings are at the current time/date.
+  Serial.print(rtc.formatTime());
   Serial.print("\r\n");
+  Serial.print(rtc.formatDate());
+  Serial.print("\r\n");
+  delay(1000);
+
+  // assign day and month into variable
+  char h1 = rtc.formatTime(RTCC_TIME_HM)[0];
+  char h2 = rtc.formatTime(RTCC_TIME_HM)[1];
+  int onlyHour = ( 10 * (h1 - '0') ) + h2 - '0';
+
+  char m1 = rtc.formatTime(RTCC_TIME_HM)[3];
+  char m2 = rtc.formatTime(RTCC_TIME_HM)[4];
+  int onlyMinutes = ( 10 * (m1 - '0') ) + m2 - '0';
+
+  char M1 = rtc.formatDate()[0];
+  char M2 = rtc.formatDate()[1];
+  int onlyMonth = ( 10 * (M1 - '0') ) + M2 - '0';
   
-  
+  Serial.println(onlyHour);
+  Serial.println(onlyMinutes);
+  Serial.println(onlyMonth);
+  Serial.println(isOpen);
+
+  // setting up date and time from serial monitor
   if (Serial.available())
   {
     char input = Serial.read();
     if (input == 'u') updateRTC();  // update RTC time
   }
 
+  // time actions
+  if(onlyMonth >= 5 && onlyMonth <= 9)
+  {
+     if(onlyHour >= 7 && onlyHour <= 14)
+     {
+        if(isOpen == false)
+        {
+          relayOn(relay4);
+        }
+     }
+     else
+     {
+        if(isOpen == true)
+        {
+          relayOn(relay1);
+        }
+     }
+  }
+  
+  // rain actions
   if(digitalRead(rain) != HIGH)
   {
     Serial.println("cegoslav");
   }
-
   
   // wind actions
   if (digitalRead(wind) == HIGH)
@@ -135,9 +181,8 @@ void loop()
   }
   else
   {
-    digitalWrite(relay1, LOW);
+    //digitalWrite(relay1, LOW); -> probably useless
   }
-
 
   // remote controller actions
   if (mySwitch.available())
@@ -147,19 +192,19 @@ void loop()
 
     if (received == recRelay1)
     {
-      relayOn(relay1);
+      relayOn(relay1, true);
     }
     if (received == recRelay2)
     {
-      relayOn(relay2);
+      relayOn(relay2, true);
     }
     if (received == recRelay3)
     {
-      relayOn(relay3);
+      relayOn(relay3, true);
     }
     if (received == recRelay4)
     {
-      relayOn(relay4);
+      relayOn(relay4, true);
     }
 
     mySwitch.resetAvailable();
