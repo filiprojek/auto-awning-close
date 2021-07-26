@@ -156,6 +156,7 @@ void loop()
      {
         if(isOpen == false)
         {
+          Serial.println("cas otevira");
           relayOn(relay4);
         }
      }
@@ -163,6 +164,7 @@ void loop()
      {
         if(isOpen == true)
         {
+          Serial.println("cas zavira");
           relayOn(relay1);
         }
      }
@@ -171,13 +173,15 @@ void loop()
   // rain actions
   if(digitalRead(rain) != HIGH)
   {
+    Serial.println("voda zavira");
     relayOn(relay1, true);
   }
   
   // wind actions
   if (digitalRead(wind) == HIGH)
   {
-    relayOn(relay1, true);
+    Serial.println("vitr zavira");
+    //relayOn(relay1, true);
   }
   else
   {
