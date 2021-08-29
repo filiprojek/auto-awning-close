@@ -150,7 +150,7 @@ void loop()
   }
 
   // time actions
-  if(onlyMonth >= 5 && onlyMonth <= 9)
+  if(onlyMonth >= 5 && onlyMonth <= 8)
   {
      if(onlyHour >= 7 && onlyHour <= 14)
      {
