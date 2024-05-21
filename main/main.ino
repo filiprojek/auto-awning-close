@@ -10,10 +10,10 @@ int wind = 8;
 int rain = 12;
 int receiver = 9;
 
-int relay1 = 7;
+int relay1 = 4;
 int relay2 = 6;
 int relay3 = 5;
-int relay4 = 4;
+int relay4 = 7;
 
 // codes from remote controller
 const int recRelay4 = 3696136;
@@ -174,7 +174,7 @@ void loop()
   if(digitalRead(rain) != HIGH)
   {
     Serial.println("voda zavira");
-    relayOn(relay1, true);
+    //relayOn(relay1, true);
   }
   
   // wind actions
