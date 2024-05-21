@@ -2,7 +2,7 @@
 
 The auto-awning-close project utilizes an Arduino Nano to automate the closing of an awning by interfacing with the original remote controller through relays. This setup allows the Arduino to send commands to the awning's existing control system, ensuring seamless integration with the original mechanism. A separate remote controller is used to communicate with the Arduino board, which then activates the appropriate relays to operate the awning.
 
-This project includes detailed breadboard and PCB layouts to guide assembly, making it a reliable and efficient solution for automating awning control based on programmable conditions or user input.
+This project includes detailed breadboard and PCB layouts to guide assembly, making it a reliable and efficient solution for automating awning control based on programmable conditions or user input. [See schematics](schematics/)
 
 ## Features
 
