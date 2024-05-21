@@ -6,9 +6,9 @@ This project includes detailed breadboard and PCB layouts to guide assembly, mak
 
 ## Features
 
-- Weather-Based Automation: The system detects environmental conditions such as rain and wind, automatically closing the awning to prevent damage or water ingress.
-- Time-Based Automation: Define specific time intervals during which the awning should be open or closed, adapting to your schedule or daylight hours.
-- Remote Control Integration: The project includes support for a separate remote controller, allowing manual operation alongside automated functionality.
+- __Weather-Based Automation:__ The system detects environmental conditions such as rain and wind, automatically closing the awning to prevent damage or water ingress.
+- __Time-Based Automation:__ Define specific time intervals during which the awning should be open or closed, adapting to your schedule or daylight hours.
+- __Remote Control Integration:__ The project includes support for a separate remote controller, allowing manual operation alongside automated functionality.
 
 ## Dependencies
 - [RCSwitch lib](https://github.com/sui77/rc-switch/releases/tag/2.6.4)
